@@ -1,20 +1,22 @@
+import { CreateCarDto } from './dto/create-car.dto';
 import { Injectable } from '@nestjs/common';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class CarsService {
   private cars = [
     {
-      id: 1,
+      id: uuid(),
       brand: 'Toyota',
       model: 'Corolla',
     },
     {
-      id: 2,
+      id: uuid(),
       brand: 'Honda',
       model: 'Civic',
     },
     {
-      id: 3,
+      id: uuid(),
       brand: 'Ford',
       model: 'Mustang',
     },
@@ -24,7 +26,16 @@ export class CarsService {
     return this.cars;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.cars.find((car) => car.id === id);
+  }
+
+  create(createCarDto: CreateCarDto) {
+    const newCar = {
+      id: uuid(),
+      ...createCarDto,
+    };
+    this.cars.push(newCar);
+    return newCar;
   }
 }
